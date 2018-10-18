@@ -32,6 +32,22 @@
 
                                 <th>Boat Name</th>
 
+                                <th>Submit Time</th>
+
+                                <th>Full Name</th>
+
+                                <th>Date Requested</th>
+
+                                <th>Time Preferred</th>
+
+                                <th>Total Budget</th>
+
+                                <th># Guest</th>
+
+                                <th>Status</th>
+
+                                <th>Winner</th>
+
                                 <th>Details</th>
 
                                 <th>Mail Sent Time</th>
@@ -46,9 +62,17 @@
                             @foreach($formData as $fd)
                                 <tr>
                                     <td>{{ $j++ }}</td>
-                                    <td>{{ $fd->owner->owner }}</td>
+                                    <td>{{ $fd->boat->name }}</td>
                                     <td>{{ $fd->owner->name }}</td>
-                                    <td><a href="{{ url('/lead-details/'.$fd->req_id) }}">Details</a></td>
+                                    <td>{{ date('m-d-Y H:i A', strtotime($fd->created_at)) }}</td>
+                                    <td>@foreach($fd->form_data as $d) @if($d->key == 'full-name') {{ $d->value }} @endif @endforeach</td>
+                                    <td>@foreach($fd->form_data as $d) @if($d->key == 'date-requested') {{ $d->value }} @endif @endforeach</td>
+                                    <td>@foreach($fd->form_data as $d) @if($d->key == 'time-requested') {{ $d->value }} @endif @endforeach</td>
+                                    <td>@foreach($fd->form_data as $d) @if($d->key == 'total-budget') {{ $d->value }} @endif @endforeach</td>
+                                    <td>@foreach($fd->form_data as $d) @if($d->key == 'number-of-guests') {{ $d->value }} @endif @endforeach</td>
+                                    <td>@foreach($fd->form_data as $d) @if($d->key == 'status') {{ $d->value }} @endif @endforeach</td>
+                                    <td>@foreach($fd->form_data as $d) @if($d->key == 'winner') {{ $d->value }} @endif @endforeach</td>
+                                    <td><a href="{{ url('/bookings/details/'.$fd->req_id) }}">Details</a></td>
                                     <td>{{ date('d M Y', strtotime($fd->created_at)).' at '.date('H:i a', strtotime($fd->created_at)) }}</td>
                                 </tr>
                             @endforeach

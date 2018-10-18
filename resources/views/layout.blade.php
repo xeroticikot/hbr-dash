@@ -1,5 +1,6 @@
 @include('includes.head')
 @include('includes.header')
 @include('includes.sidebar')
+@include('includes.notifications')
 @yield('content')
 @include('includes.footer')

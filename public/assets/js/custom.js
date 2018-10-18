@@ -14,10 +14,10 @@ $('#calendar2').datepicker({
 (window.jQuery);
 	$(window).on('resize', function () {
   if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
-})
+});
 $(window).on('resize', function () {
   if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
-})
+});
 
 $(document).on('click', '.panel-heading span.clickable', function(e){
     var $this = $(this);
@@ -30,13 +30,17 @@ $(document).on('click', '.panel-heading span.clickable', function(e){
 		$this.removeClass('panel-collapsed');
 		$this.find('em').removeClass('fa-toggle-down').addClass('fa-toggle-up');
 	}
-})
+});
 
 $(".notification-badge").on('click',function() {
         $(".get-notification-popupbar").toggleClass("add-popupbar");
     });
 
 $(function() {
+    $('#notify').on('click', function(e){
+        e.preventDefault();
+        $(this).parent().toggleClass('open');
+    });
 	/*--=================
     bootstrap select
     =================--*/

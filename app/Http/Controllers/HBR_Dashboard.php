@@ -667,6 +667,11 @@ class HBR_Dashboard extends Controller
     }
 
     public function boatOwners(Request $request){
+        if(Auth::user()->role == 'other'){
+            return redirect()
+                ->to('/')
+                ->with('error', 'You don\'t have authorization to access this page!');
+        }
         $owners = User::where(['role' => 'other'])
             ->orWhere(['email' => 'joeialacci@gmail.com'])
             ->get();
@@ -686,7 +691,9 @@ class HBR_Dashboard extends Controller
         foreach($formData as $fd){
             $form_data = IncomingData::where(['sn_no' => $fd->req_id])->get();
             $fd->form_data = $form_data;
-            $owner = User::find($fd->user_id);
+            $theBoat = Boats::find($fd->user_id);
+            $fd->boat = $theBoat;
+            $owner = User::where('email', $theBoat->email)->first();
             $fd->owner = $owner;
         }
         return view('pages.owners-leads', [
@@ -696,7 +703,41 @@ class HBR_Dashboard extends Controller
         ]);
     }
 
+    public function delete(Request $request){
+        if($request->isMethod('post')){
+            if(Auth::user()->role == 'other'){
+                return redirect()
+                    ->to('/')
+                    ->with('error', 'You don\'t have authorization to access this page!');
+            }
+            $form_data = IncomingData::where(['sn_no' => $request->sn_no])->get();
+            foreach($form_data as $fd){
+                IncomingData::destroy($fd->id);
+            }
+            $sent = SentMails::where('req_id', $request->sn_no)->get();
+            if(!empty($sent)){
+                foreach($sent as $s){
+                    SentMails::destroy($s->id);
+                }
+            }
+            $offers = Offers::where('req_id', $request->sn_no)->get();
+            if(!empty($offers)){
+                foreach($offers as $o){
+                    Offers::destroy($o->id);
+                }
+            }
+            return redirect()
+                ->to('/')
+                ->with('success', 'The lead was deleted successfully!');
+        }
+    }
+
     public function ownerLeads(Request $request, $id){
+        if(Auth::user()->role == 'other'){
+            return redirect()
+                ->to('/')
+                ->with('error', 'You don\'t have authorization to access this page!');
+        }
         $page = null;
         if(isset($request->page)){
             $page = $request->page;
@@ -815,7 +856,7 @@ class HBR_Dashboard extends Controller
     }
 
     public function downloadExcel(Request $request, $link){
-        return Excel::download(new ExportData($link), 'data.xlsx');
+        return Excel::download(new ExportData($link), 'hamptons-boat-rental-upboard-data.xlsx');
     }
 
 }

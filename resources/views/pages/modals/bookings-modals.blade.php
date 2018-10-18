@@ -179,4 +179,27 @@
 
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="delete-item{{ $d->sn_no }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Delete Lead</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete ?</p>
+                </div>
+                <div class="modal-footer">
+                    <form method="post" action="{{ url('/delete') }}" id="del-lead{{ $d->sn_no }}">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="sn_no" value="{{ $d->sn_no }}">
+                    </form>
+                    <button type="submit" form="del-lead{{ $d->sn_no }}" class="btn btn-primary">Yes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endforeach

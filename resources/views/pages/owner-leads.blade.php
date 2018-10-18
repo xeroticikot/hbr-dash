@@ -14,7 +14,7 @@
 
                     <div class="panel-heading">
 
-                        All Leads
+                        All Leads For This Boat Owner
 
                     </div>
 
@@ -29,6 +29,22 @@
                                 <th>No</th>
 
                                 <th>Boat Name</th>
+
+                                <th>Submit Time</th>
+
+                                <th>Full Name</th>
+
+                                <th>Date Requested</th>
+
+                                <th>Time Preferred</th>
+
+                                <th>Total Budget</th>
+
+                                <th># Guest</th>
+
+                                <th>Status</th>
+
+                                <th>Winner</th>
 
                                 <th>Details</th>
 
@@ -45,6 +61,14 @@
                                 <tr>
                                     <td>{{ $j++ }}</td>
                                     <td>{{ $bd->boat_name }}</td>
+                                    <td>{{ date('m-d-Y H:i A', strtotime($bd->created_at)) }}</td>
+                                    <td>@foreach($bd->details as $d) @if($d->key == 'full-name') {{ $d->value }} @endif @endforeach</td>
+                                    <td>@foreach($bd->details as $d) @if($d->key == 'date-requested') {{ $d->value }} @endif @endforeach</td>
+                                    <td>@foreach($bd->details as $d) @if($d->key == 'time-requested') {{ $d->value }} @endif @endforeach</td>
+                                    <td>@foreach($bd->details as $d) @if($d->key == 'total-budget') {{ $d->value }} @endif @endforeach</td>
+                                    <td>@foreach($bd->details as $d) @if($d->key == 'number-of-guests') {{ $d->value }} @endif @endforeach</td>
+                                    <td>@foreach($bd->details as $d) @if($d->key == 'status') {{ $d->value }} @endif @endforeach</td>
+                                    <td>@foreach($bd->details as $d) @if($d->key == 'winner') {{ $d->value }} @endif @endforeach</td>
                                     <td><a href="{{ url('/lead-details/'.$bd->sn_no) }}">Details</a></td>
                                     <td>{{ date('d M Y', strtotime($bd->created_at)).' at '.date('H:i a', strtotime($bd->created_at)) }}</td>
                                 </tr>

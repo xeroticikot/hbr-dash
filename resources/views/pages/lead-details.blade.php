@@ -112,6 +112,11 @@
 
                         </div>
 
+                        <div class="form-group">
+                            <label>Preferred Time : </label>
+                            <span>@foreach($data as $fd) @if($fd->key == 'time-requested') {{ $fd->value }} @endif @endforeach</span>
+                        </div>
+
 
 			 <div class="form-group">
 

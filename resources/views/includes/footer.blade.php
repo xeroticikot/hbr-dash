@@ -60,9 +60,68 @@
     $(document).ready(function(){
         $(".link-go").click(function(e) {
             e.preventDefault();
-            window.location = $(this).attr("data-href");
+            window.location = $(".link-gos").attr("data-href");
         });
     });
+</script>
+
+<script src="https://js.pusher.com/3.1/pusher.min.js"></script>
+<script type="text/javascript">
+    var user_id = '{{ Auth::id() }}';
+    var notificationsWrapper   = $('.dropdown');
+    var notificationsToggle    = $('.dropdown-toggle');
+    var notificationsCountElem = notificationsToggle.find('span.badge');
+    var notificationsCount     = parseInt(notificationsCountElem.text());
+    var notifications          = notificationsWrapper.find('ul.dropdown-cart');
+
+//    if (notificationsCount <= 0) {
+//        notificationsWrapper.hide();
+//    }
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('52b35e01759e2e568c28', {
+        encrypted: true,
+        cluster: 'mt1'
+    });
+
+    // Subscribe to the channel we specified in our Laravel Event
+    var channel = pusher.subscribe('notify-all');
+
+    // Bind a function to a Event (the full Laravel class)
+    channel.bind('App\\Events\\NotifyAll', function(data) {
+        var existingNotifications = notifications.html();
+        var newNotificationHtml = '<li>'+
+                '<p class="alert alert-info alert-dismissible msg">'+
+        '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+data.msg+
+        '</p>'+
+        '</li>';
+
+        notifications.html(newNotificationHtml + existingNotifications);
+
+        notificationsCount += 1;
+        notificationsCountElem.text(notificationsCount);
+        //notificationsWrapper.show();
+    });
+
+    function readNot(event, id){
+        if(event.which == 1 || event.which == 2 || event.which == 3){
+            $.ajax({
+                url: '{{ url('/read-notification') }}',
+                type: 'POST',
+                data: {'id':id},
+                dataType: 'json',
+                success: function(data){
+                    if(data.stat == 'true'){
+                        $('#notify-'+id).removeAttr('class');
+                        notificationsCount -= 1;
+                        notificationsCountElem.text(notificationsCount);
+                    }
+                }
+            });
+        }
+    }
 </script>
 
 @if(isset($js))

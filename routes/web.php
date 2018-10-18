@@ -32,5 +32,14 @@ Route::post('/lead-details/{id}', 'HBR_Dashboard@leadDetails');
 Route::get('/owners', 'HBR_Dashboard@boatOwners');
 Route::get('/owners/{id}', 'HBR_Dashboard@ownerLeads');
 Route::get('/excel/download/{link}', 'HBR_Dashboard@downloadExcel');
+Route::post('/delete', 'HBR_Dashboard@delete');
+Route::get('/hit', function(){
+    event(new \App\Events\NotifyAll([
+        'event' => 'not-test',
+        'msg' => 'Mahmud Abdur Rahman is testing the system.',
+        'tos' => [10 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9]
+    ]));
+    return 'Event was fired!!';
+});
 
 Auth::routes();

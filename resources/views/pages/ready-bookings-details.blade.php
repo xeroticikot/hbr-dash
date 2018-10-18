@@ -59,7 +59,11 @@
 			<div class="form-group">
                             <label>Requested Date : </label>
                             <span>@foreach($data as $fd) @if($fd->key == 'date-requested') {{ $fd->value }} @endif @endforeach</span>
-                        </div>                        
+                        </div>
+                        <div class="form-group">
+                            <label>Preferred Time : </label>
+                            <span>@foreach($data as $fd) @if($fd->key == 'time-requested') {{ $fd->value }} @endif @endforeach</span>
+                        </div>
 			<div class="form-group">
                             <label>Total Budget : </label>
                             <span>@foreach($data as $fd) @if($fd->key == 'total-budget') {{ $fd->value }} @endif @endforeach</span>
