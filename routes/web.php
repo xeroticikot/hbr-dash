@@ -33,6 +33,7 @@ Route::get('/owners', 'HBR_Dashboard@boatOwners');
 Route::get('/owners/{id}', 'HBR_Dashboard@ownerLeads');
 Route::get('/excel/download/{link}', 'HBR_Dashboard@downloadExcel');
 Route::post('/delete', 'HBR_Dashboard@delete');
+Route::post('/payment', 'HBR_Dashboard@payment');
 Route::get('/hit', function(){
     event(new \App\Events\NotifyAll([
         'event' => 'not-test',

@@ -198,29 +198,29 @@
 
                             @foreach($data as $d)
 
-                                <tr class="clickable link-gos" data-href="{{ url('/bookings/details/'.$d->sn_no) }}">
+                                <tr class="clickable link-gos{{ $d->sn_no }}" data-href="{{ url('/bookings/details/'.$d->sn_no) }}">
 
                                     <td>{{ $i++ }}</td>
 
-                                    <td class="link-go">@foreach($d->form_data as $fd) @if($fd->key == 'full-name') {{ $fd->sn_no }} @endif @endforeach</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">@foreach($d->form_data as $fd) @if($fd->key == 'full-name') {{ $fd->sn_no }} @endif @endforeach</td>
 
-                                    <td class="link-go">{{ date('m-d-Y H:i A', strtotime($d->created_at)) }}</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">{{ date('m-d-Y H:i A', strtotime($d->created_at)) }}</td>
 
-                                    <td class="link-go">@foreach($d->form_data as $fd) @if($fd->key == 'full-name') {{ $fd->value }} @endif @endforeach</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">@foreach($d->form_data as $fd) @if($fd->key == 'full-name') {{ $fd->value }} @endif @endforeach</td>
 
-                                    <td class="link-go">@foreach($d->form_data as $fd) @if($fd->key == 'boat-choice1') {{ $fd->value }} @endif @endforeach</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">@foreach($d->form_data as $fd) @if($fd->key == 'boat-choice1') {{ $fd->value }} @endif @endforeach</td>
 
-                                    <td class="link-go">@foreach($d->form_data as $fd) @if($fd->key == 'date-requested') {{ $fd->value }} @endif @endforeach</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">@foreach($d->form_data as $fd) @if($fd->key == 'date-requested') {{ $fd->value }} @endif @endforeach</td>
 
-                                    <td class="link-go">@foreach($d->form_data as $fd) @if($fd->key == 'total-budget') {{ $fd->value }} @endif @endforeach</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">@foreach($d->form_data as $fd) @if($fd->key == 'total-budget') {{ $fd->value }} @endif @endforeach</td>
 
-                                    <td class="link-go">@foreach($d->form_data as $fd) @if($fd->key == 'number-of-guests') {{ $fd->value }} @endif @endforeach</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">@foreach($d->form_data as $fd) @if($fd->key == 'number-of-guests') {{ $fd->value }} @endif @endforeach</td>
 
-                                    <td class="link-go">@foreach($d->form_data as $fd) @if($fd->key == 'boat-choice2') {{ $fd->value }} @endif @endforeach</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">@foreach($d->form_data as $fd) @if($fd->key == 'boat-choice2') {{ $fd->value }} @endif @endforeach</td>
 
-                                    <td class="link-go">@foreach($d->form_data as $fd) @if($fd->key == 'boat-choice3') {{ $fd->value }} @endif @endforeach</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">@foreach($d->form_data as $fd) @if($fd->key == 'boat-choice3') {{ $fd->value }} @endif @endforeach</td>
 
-                                    <td class="link-go">@foreach($d->form_data as $fd) @if($fd->key == 'status') {{ $fd->value }} @endif @endforeach</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">@foreach($d->form_data as $fd) @if($fd->key == 'status') {{ $fd->value }} @endif @endforeach</td>
 
                                     <td><a href="{{ url('/bookings/details/'.$d->sn_no) }}"><i class="fa fa-folder-open"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-remove" data-toggle="modal" data-target="#delete-item{{ $d->sn_no }}"></i></td>
 
@@ -266,29 +266,29 @@
 
                             @foreach($data as $d)
 
-                                <tr class="clickable link-gos" data-href="{{ url('/bookings/details/'.$d->sn_no) }}">
+                                <tr class="clickable link-gos{{ $d->sn_no }}" data-href="{{ url('/bookings/details/'.$d->sn_no) }}">
 
                                     <td>{{ $i++ }}</td>
 
-                                    <td class="link-go">@foreach($d->form_data as $fd) @if($fd->key == 'full-name') {{ $fd->sn_no }} @endif @endforeach</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">@foreach($d->form_data as $fd) @if($fd->key == 'full-name') {{ $fd->sn_no }} @endif @endforeach</td>
 
-                                    <td class="link-go">{{ date('m-d-Y H:i A', strtotime($d->created_at)) }}</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">{{ date('m-d-Y H:i A', strtotime($d->created_at)) }}</td>
 
-                                    <td class="link-go">@foreach($d->form_data as $fd) @if($fd->key == 'full-name') {{ $fd->value }} @endif @endforeach</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">@foreach($d->form_data as $fd) @if($fd->key == 'full-name') {{ $fd->value }} @endif @endforeach</td>
 
-                                    <td class="link-go">@foreach($d->form_data as $fd) @if($fd->key == 'date-requested') {{ $fd->value }} @endif @endforeach</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">@foreach($d->form_data as $fd) @if($fd->key == 'date-requested') {{ $fd->value }} @endif @endforeach</td>
 
-                                    <td class="link-go">@foreach($d->form_data as $fd) @if($fd->key == 'total-budget') {{ $fd->value }} @endif @endforeach</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">@foreach($d->form_data as $fd) @if($fd->key == 'total-budget') {{ $fd->value }} @endif @endforeach</td>
 
-                                    <td class="link-go">@foreach($d->form_data as $fd) @if($fd->key == 'number-of-guests') {{ $fd->value }} @endif @endforeach</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">@foreach($d->form_data as $fd) @if($fd->key == 'number-of-guests') {{ $fd->value }} @endif @endforeach</td>
 
-                                    <td class="link-go">@foreach($d->form_data as $fd) @if($fd->key == 'boat-choice1') {{ $fd->value }} @endif @endforeach</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">@foreach($d->form_data as $fd) @if($fd->key == 'boat-choice1') {{ $fd->value }} @endif @endforeach</td>
 
-                                    <td class="link-go">@foreach($d->form_data as $fd) @if($fd->key == 'boat-choice2') {{ $fd->value }} @endif @endforeach</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">@foreach($d->form_data as $fd) @if($fd->key == 'boat-choice2') {{ $fd->value }} @endif @endforeach</td>
 
-                                    <td class="link-go">@foreach($d->form_data as $fd) @if($fd->key == 'boat-choice3') {{ $fd->value }} @endif @endforeach</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">@foreach($d->form_data as $fd) @if($fd->key == 'boat-choice3') {{ $fd->value }} @endif @endforeach</td>
 
-                                    <td class="link-go">@foreach($d->form_data as $fd) @if($fd->key == 'status') {{ $fd->value }} @endif @endforeach</td>
+                                    <td class="link-go" rel="{{ $d->sn_no }}">@foreach($d->form_data as $fd) @if($fd->key == 'status') {{ $fd->value }} @endif @endforeach</td>
 
                                     <td><a href="{{ url('/bookings/details/'.$d->sn_no) }}"><i class="fa fa-folder-open"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-remove" data-toggle="modal" data-target="#delete-item{{ $d->sn_no }}"></i></td>
 

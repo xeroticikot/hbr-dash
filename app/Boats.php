@@ -20,7 +20,7 @@ class Boats extends Model
     protected $rules = array(
         'name'  => 'required',
         'owner'  => 'required',
-        'email'  => 'required',
+        'email'  => 'required|email',
         'phone'  => 'required',
     );
     protected $errors;

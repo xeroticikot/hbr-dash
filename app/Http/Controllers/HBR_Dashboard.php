@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Boats;
 use App\Exports\ExportData;
 use App\Offers;
+use App\Payment;
 use App\SentMails;
 use Illuminate\Http\Request;
 use App\User;
@@ -255,12 +256,14 @@ class HBR_Dashboard extends Controller
         foreach($offers as $of){
             $offer_boats[] = $of->user_id;
         }
+        $payment = Payment::where('lead_id', $id)->first();
         return view('pages.ready-bookings-details', [
             'data' => $data,
             'boats' => $boats,
             'sent_mails' => $sent_mails,
             'offers' => $offers,
             'offer_boats' => $offer_boats,
+            'payment' => $payment,
             'slug' => 'bookings',
             'modals' => 'pages.modals.ready-bookings-details-modals',
             'js' => 'pages.js.ready-bookings-details-js'
@@ -455,6 +458,36 @@ class HBR_Dashboard extends Controller
         }
     }
 
+    public function payment(Request $request){
+        if($request->isMethod('post')){
+            $pay = new Payment();
+            $pay->lead_id = $request->lead_id;
+            $pay->winner = $request->winner;
+            $pay->date_booked = $request->date_booked;
+            $pay->total_hour = $request->total_hour;
+            $pay->base_rate = $request->base_rate;
+            $pay->fuel = $request->fuel;
+            $pay->gratuity = $request->gratuity;
+            $pay->apa = $request->apa;
+            $pay->total_com = $request->total_com;
+            $pay->com_rate = $request->com_rate;
+            $pay->total_earn = $request->total_earn;
+            $pay->date_paid = $request->date_paid;
+            $pay->paid_via = $request->paid_via;
+            $pay->com_via = $request->com_via;
+            $pay->auto_up = $request->auto_up;
+            if($pay->save()){
+                return redirect()
+                    ->to('/bookings/details/'.$request->lead_id)
+                    ->with('success', 'Payment info was saved!');
+            }else{
+                return redirect()
+                    ->to('/bookings/details/'.$request->lead_id)
+                    ->with('error', 'Something went wrong! Please try again!');
+            }
+        }
+    }
+
     public function sendMail(Request $request){
         if(Auth::user()->role == 'other'){
             return redirect()
@@ -471,6 +504,9 @@ class HBR_Dashboard extends Controller
                 }
                 if($fd->key == 'date-requested'){
                     $data['date_req'] = $fd->value;
+                }
+                if($fd->key == 'time-requested'){
+                    $data['time_req'] = $fd->value;
                 }
                 if($fd->key == 'total-budget'){
                     $data['total_budget'] = $fd->value;
@@ -513,7 +549,7 @@ class HBR_Dashboard extends Controller
 
             Mail::send('emails.email', $data, function($message) use ($data) {
                 $message->to($data['email'], $data['name'])
-                    ->subject($data['subject']);
+                    ->subject('HBR Inquiry - '.$data['date_req'].', '.$data['time_req'].', '.$data['no_guests'].', '.substr($data['full-name'], 0, 5));
                 $message->from('hbravailability@hamptonsboatrental.com','Hamptons Boat Rental - Inquiry');
             });
 

@@ -60,7 +60,8 @@
     $(document).ready(function(){
         $(".link-go").click(function(e) {
             e.preventDefault();
-            window.location = $(".link-gos").attr("data-href");
+            var rel = $(this).attr('rel');
+            window.location = $(".link-gos"+rel).attr("data-href");
         });
     });
 </script>

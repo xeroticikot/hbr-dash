@@ -106,6 +106,13 @@
                             <label>Additional Notes : </label>
                             <span>@foreach($data as $fd) @if($fd->key == 'additional-notes') {{ $fd->value }} @endif @endforeach</span>
                         </div>
+                        <div class="form-group">
+                            <label>HBR Notes Regarding Customer : </label>
+                            <textarea name="ex_notes" placeholder="HBR Notes Regarding Customer" cols="16" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-info btn-offer pull-right">Add Note</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -127,6 +134,7 @@
                         <div class="form-group">
                             <label>Primary Communication Via :</label>
                             <select class="form-control" name="com_via">
+                                <option value="">.....</option>
                                 <option value="phone">Phone</option>
                                 <option value="email">E-mail</option>
                                 <option value="text">Text</option>
@@ -208,6 +216,7 @@
                             <label>Make Own Inquiry :</label>
                             <div class="input-group">
                                 <select class="form-control input-lg" name="invite_boat" id="change-boat">
+                                    <option value="">.....</option>
                                     @foreach($boats as $boat)
                                         <option value="{{ $boat->id }}">{{ $boat->name }}</option>
                                     @endforeach
@@ -231,6 +240,7 @@
                         </div>
                         <div class="form-group">
                             <input type="hidden" name="req_id" value="@if($fd->key == 'status') {{ $fd->sn_no }} @endif">
+                            <button type="button" class="btn btn-info btn-delete" data-toggle="modal" data-target="#delete-item">Delete</button>
                             <button class="btn btn-info btn-offer pull-right" type="submit">Make Changes</button>
                         </div>
                         </form>
@@ -240,16 +250,18 @@
             <div class="col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Payments
+                        Booking + Payments Details
                     </div>
                     <div class="panel-body">
-                        <form>
+                        <form method="post" action="{{ url('/payment') }}">
+                            {{ csrf_field() }}
 
 <div class="form-group">
                             <label>Winner of Client :</label>
-                            <select class="form-control input-lg" name="winner" id="change-boat">
+                            <select class="form-control input-lg" name="winner" id="change-boat" @if(!empty($payment)) {{ 'disabled'  }} @endif>
+                                <option value="">.....</option>
                                 @foreach($boats as $boat)
-                                    <option value="{{ $boat->id }}">{{ $boat->owner }} - {{ $boat->name }}</option>
+                                    <option value="{{ $boat->id }}" @if(!empty($payment) && $payment->winner == $boat->id) {{ 'selected' }} @endif>{{ $boat->owner }} - {{ $boat->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -257,58 +269,87 @@
 
 
                                 <label>Date Booked :</label>
-                                <input class="form-control" type="datetime" name="date_booked">
+                                <input class="form-control" type="datetime" name="date_booked" @if(!empty($payment)) value="{{ $payment->date_booked }}" readonly @endif>
                             </div>  
                             <div class="form-group">
                                 <label>Total Hours :</label>
-                                <input class="form-control" type="number" name="total_hours" min="4" placeholder="4">
+                                <input class="form-control" type="number" name="total_hour" min="4" placeholder="4" @if(!empty($payment)) value="{{ $payment->total_hour }}" readonly @endif>
                             </div>
 				
 					<div class="form-group">
                                 <label>Base $ Rate For Time :</label>
-                                <input class="form-control" type="number" name="base_rate">
+                                <input class="form-control" type="number" name="base_rate" @if(!empty($payment)) value="{{ $payment->base_rate }}" readonly @endif>
                             </div>
 				<div class="form-group">
                                 <label>Fuel $ :</label>
-                                <input class="form-control" type="number" name="fuel_rate">
+                                <input class="form-control" type="number" name="fuel" @if(!empty($payment)) value="{{ $payment->fuel }}" readonly @endif>
                             </div>
 
 				<div class="form-group">
                                 <label>Gratuity :</label>
-                                <input class="form-control" type="number" name="gratuity_rate">
+                                <input class="form-control" type="number" name="gratuity" @if(!empty($payment)) value="{{ $payment->gratuity }}" readonly @endif>
                             </div>
 				
 				<div class="form-group">
                                 <label>APA :</label>
-                                <input class="form-control" type="number" name="apa">
+                                <input class="form-control" type="number" name="apa" @if(!empty($payment)) value="{{ $payment->apa }}" readonly @endif>
                             </div>
 
 
                             <div class="form-group">
                                 <label>Total Commissionable :</label>
-                                <input class="form-control" type="text" name="total_commission" placeholder="Total Commissionable">
+                                <input class="form-control" type="text" name="total_com" placeholder="Total Commissionable" @if(!empty($payment)) value="{{ $payment->total_com }}" readonly @endif>
                             </div>
                             <div class="form-group">
                                 <label>Commission Rate :</label>
-                                <input class="form-control" type="number" name="commission_rate">
+                                <input class="form-control" type="number" name="com_rate" @if(!empty($payment)) value="{{ $payment->com_rate }}" readonly @endif>
                             </div>
                             <div class="form-group">
                                 <label>Total Earned :</label>
-                                <input class="form-control" type="text" name="total_earned" placeholder="Total Earned">
+                                <input class="form-control" type="text" name="total_earn" placeholder="Total Earned" @if(!empty($payment)) value="{{ $payment->total_earn }}" readonly @endif>
                             </div>
 				                                 
 			                <div class="form-group">
                                 <label>Date Paid :</label>
-                                <input class="form-control" type="datetime" name="date_paid">
+                                <input class="form-control datepicker" type="datetime" name="date_paid" @if(!empty($payment)) value="{{ $payment->date_paid }}" readonly @endif>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Booking Paid Via :</label>
+                                <select class="form-control input-lg" name="paid_via" @if(!empty($payment)) {{ 'disabled'  }} @endif>
+                                    <option value="">.....</option>
+                                    <option value="Wired" @if(!empty($payment) && $payment->paid_via == 'Wired') {{ 'selected' }} @endif>Wired</option>
+                                    <option value="Paypal" @if(!empty($payment) && $payment->paid_via == 'Paypal') {{ 'selected' }} @endif>Paypal</option>
+                                    <option value="Credit Card" @if(!empty($payment) && $payment->paid_via == 'Credit Card') {{ 'selected' }} @endif>Credit Card</option>
+                                    <option value="Venmo" @if(!empty($payment) && $payment->paid_via == 'Venmo') {{ 'selected' }} @endif>Venmo</option>
+                                    <option value="ACH" @if(!empty($payment) && $payment->paid_via == 'ACH') {{ 'selected' }} @endif>ACH</option>
+                                    <option value="Chase Quick Pay" @if(!empty($payment) && $payment->paid_via == 'Chase Quick Pay') {{ 'selected' }} @endif>Chase Quick Pay</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Commission Paid Via :</label>
+                                <select class="form-control input-lg" name="com_via" @if(!empty($payment)) {{ 'disabled'  }} @endif>
+                                    <option value="">.....</option>
+                                    <option value="Wired" @if(!empty($payment) && $payment->com_via == 'Wired') {{ 'selected' }} @endif>Wired</option>
+                                    <option value="Paypal" @if(!empty($payment) && $payment->com_via == 'Paypal') {{ 'selected' }} @endif>Paypal</option>
+                                    <option value="Credit Card" @if(!empty($payment) && $payment->com_via == 'Credit Card') {{ 'selected' }} @endif>Credit Card</option>
+                                    <option value="Venmo" @if(!empty($payment) && $payment->com_via == 'Venmo') {{ 'selected' }} @endif>Venmo</option>
+                                    <option value="ACH" @if(!empty($payment) && $payment->com_via == 'ACH') {{ 'selected' }} @endif>ACH</option>
+                                    <option value="Chase Quick Pay" @if(!empty($payment) && $payment->com_via == 'Chase Quick Pay') {{ 'selected' }} @endif>Chase Quick Pay</option>
+                                </select>
                             </div>
                             
                             <div class="form-group">
                                 <label>Auto-update Calender :</label>
-                                <input class="form-control" type="text" name="update_calender" placeholder="Auto-update Calender">
+                                <input class="form-control" type="text" name="auto_up" placeholder="Auto-update Calender" @if(!empty($payment)) value="{{ $payment->auto_up }}" readonly @endif>
                             </div>
+                            @if(empty($payment))
                             <div class="form-group">
+                                <input type="hidden" name="lead_id" value="@if($fd->key == 'status') {{ $fd->sn_no }} @endif">
                                 <button class="btn btn-info btn-offer pull-right" type="submit">Save Payments</button>
                             </div>
+                                @endif
                         </form>
                     </div>
                 </div>

@@ -79,3 +79,30 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="delete-item" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Delete Lead</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete ?</p>
+                </div>
+                <div class="modal-footer">
+                    <form method="post" action="{{ url('/delete') }}" id="del-lead">
+                        {{ csrf_field() }}
+                        @foreach($data as $fd)
+                            @if($fd->key == 'full-name')
+                        <input type="hidden" name="sn_no" value="{{ $fd->sn_no }}">
+                        @endif
+                        @endforeach
+                    </form>
+                    <button type="submit" form="del-lead" class="btn btn-primary">Yes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
